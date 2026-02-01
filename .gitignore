@@ -1,0 +1,65 @@
+# =========================
+# Terraform
+# =========================
+
+# Local .terraform dir
+.terraform/
+
+# State files (МІСТЯТЬ СЕКРЕТИ!)
+*.tfstate
+*.tfstate.*
+
+# Crash logs
+crash.log
+
+# Terraform lock info (опціонально)
+# якщо хочеш фіксувати версії провайдерів — залишай у git
+# якщо ні — розкоментуй
+# .terraform.lock.hcl
+
+# Plan files
+*.tfplan
+*.plan
+plan.out
+
+# Variables (часто містять secrets)
+*.tfvars
+*.tfvars.json
+
+# Override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI config
+.terraformrc
+terraform.rc
+
+
+# =========================
+# Secrets
+# =========================
+
+.env
+.env.*
+*.pem
+*.key
+*.pfx
+
+
+# =========================
+# OS / IDE noise
+# =========================
+
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+
+# =========================
+# Logs
+# =========================
+
+*.log
