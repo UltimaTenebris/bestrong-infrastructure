@@ -1,38 +1,31 @@
-FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /src
+# ---------- BUILD ----------
+    FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
-# копіюємо тільки csproj
-COPY app/*.csproj ./
-RUN dotnet restore
-
-# копіюємо решту
-COPY app/. ./
-
-# EF тільки для збірки
-RUN dotnet tool install --global dotnet-ef --version 8.0.2
-ENV PATH="$PATH:/root/.dotnet/tools"
-
-# зібрати міграції в bundle
-RUN dotnet ef migrations bundle \
-  --runtime linux-x64 \
-  -o /out/efbundle
-RUN chmod +x /out/efbundle
-
-
-# зібрати апку
-RUN dotnet publish -c Release -o /out
-
-
-# -------- RUNTIME --------
-FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/aspnet:8.0
-WORKDIR /app
-
-EXPOSE 5000
-
-COPY --from=build /out .
-
-RUN mkdir -p /app/Data && chmod 777 /app/Data
-RUN mkdir -p /app/data && chmod 777 /app/data
-
-
-ENTRYPOINT ["dotnet", "DotNetCrudWebApi.dll"]
+    WORKDIR /app
+    COPY . .
+    
+    WORKDIR /app/DotNet-8-Crud-Web-API-Example/DotNetCrudWebApi
+    
+    RUN dotnet tool install --global dotnet-ef --version 8.*
+    ENV PATH="$PATH:/root/.dotnet/tools"
+    
+    RUN dotnet restore
+    RUN dotnet ef migrations bundle -o /app/efbundle --self-contained -r linux-x64
+    RUN dotnet publish -c Release -o /app/publish
+    
+    # ---------- RUNTIME ----------
+    FROM mcr.microsoft.com/dotnet/aspnet:8.0
+    
+    WORKDIR /app
+    EXPOSE 8080
+    
+    RUN mkdir -p /app/data
+    
+    COPY --from=build /app/publish .
+    COPY --from=build /app/efbundle ./efbundle
+    COPY ./entrypoint.sh ./entrypoint.sh
+    
+    RUN chmod +x ./entrypoint.sh ./efbundle \
+     && chmod -R 777 /app/data
+    
+    ENTRYPOINT ["./entrypoint.sh"]
