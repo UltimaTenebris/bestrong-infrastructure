@@ -1,9 +1,11 @@
-name: CD Deploy (Blue/Green)2
+name: CD Deploy (Blue/Green)
 
 on:
   workflow_run:
     workflows: ["CI Build (Terraform + Docker + Helm)"]
     types: [completed]
+  workflow_dispatch:
+
 
 
 env:
