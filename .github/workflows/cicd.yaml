@@ -11,10 +11,10 @@ on:
 
 env:
   # ===== HARD-CODED INFRA =====
-  ACR_NAME: testdrivemegacr
-  ACR_LOGIN: testdrivemegacr.azurecr.io
-  AKS_NAME: testdrive-aks
-  AKS_RG: test-rg-bg
+  ACR_NAME: bestrongacr123
+  ACR_LOGIN: bestrongacr123.azurecr.io
+  AKS_NAME: bestrong-aks
+  AKS_RG: BeStrongTeam01
 
   # ===== PROJECT =====
   TF_DIR: terraform
@@ -29,6 +29,12 @@ env:
   APP_CHART: bestrong-app
   ROUTE_CHART: bestrong-routing
   ROUTE_RELEASE: bestrong-routing
+
+  # auth azure
+  AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+  AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
 jobs:
   # ===== OPTIONAL: Terraform =====
@@ -63,9 +69,16 @@ jobs:
             echo "tag=${{ github.run_number }}" >> "$GITHUB_OUTPUT"
           fi
 
-      - uses: azure/login@v2
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Azure login (service principal)
+        run: |
+          az login \
+            --service-principal \
+            -u "$AZURE_CLIENT_ID" \
+            -p "$AZURE_CLIENT_SECRET" \
+            --tenant "$AZURE_TENANT_ID"
+
+          az account set \
+            --subscription "$AZURE_SUBSCRIPTION_ID"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -101,9 +114,16 @@ jobs:
           TAG="${{ needs.docker.outputs.tag }}"
           echo "chart_version=0.1.${TAG}" >> "$GITHUB_OUTPUT"
 
-      - uses: azure/login@v2
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Azure login (service principal)
+        run: |
+          az login \
+            --service-principal \
+            -u "$AZURE_CLIENT_ID" \
+            -p "$AZURE_CLIENT_SECRET" \
+            --tenant "$AZURE_TENANT_ID"
+
+          az account set \
+            --subscription "$AZURE_SUBSCRIPTION_ID"
 
       - name: Install Helm
         run: |
@@ -143,9 +163,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: azure/login@v2
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Azure login (service principal)
+        run: |
+          az login \
+            --service-principal \
+            -u "$AZURE_CLIENT_ID" \
+            -p "$AZURE_CLIENT_SECRET" \
+            --tenant "$AZURE_TENANT_ID"
+
+          az account set \
+            --subscription "$AZURE_SUBSCRIPTION_ID"
 
       - name: Install tools
         run: |
