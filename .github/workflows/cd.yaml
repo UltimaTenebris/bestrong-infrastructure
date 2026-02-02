@@ -1,4 +1,4 @@
-name: CD Deploy (Blue/Green)
+name: CD Deploy (Blue/Green)2
 
 on:
   workflow_run:
