@@ -13,7 +13,7 @@ env:
   AKS_RG: test-rg-bg
 
   # ===== PROJECT =====
-  TF_DIR: infra
+  TF_DIR: terraform
   IMAGE_NAME: dotnet-crud-api
   APP_CHART_DIR: helm-charts/bestrong-app
   ROUTE_CHART_DIR: helm-charts/bestrong-routing
