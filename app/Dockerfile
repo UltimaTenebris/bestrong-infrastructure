@@ -35,4 +35,4 @@ RUN mkdir -p /app/Data && chmod 777 /app/Data
 RUN mkdir -p /app/data && chmod 777 /app/data
 
 
-ENTRYPOINT ["/bin/sh", "-c", "./efbundle || true && dotnet DotNetCrudWebApi.dll"]
+ENTRYPOINT ["dotnet", "DotNetCrudWebApi.dll"]
