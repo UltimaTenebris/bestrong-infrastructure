@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # копіюємо тільки csproj
@@ -24,7 +24,7 @@ RUN dotnet publish -c Release -o /out
 
 
 # -------- RUNTIME --------
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 
 EXPOSE 5000
@@ -32,6 +32,7 @@ EXPOSE 5000
 COPY --from=build /out .
 
 RUN mkdir -p /app/Data && chmod 777 /app/Data
+RUN mkdir -p /app/data && chmod 777 /app/data
 
 
 ENTRYPOINT ["/bin/sh", "-c", "./efbundle || true && dotnet DotNetCrudWebApi.dll"]
