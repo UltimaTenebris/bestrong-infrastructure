@@ -22,6 +22,7 @@ env:
   APP_CHART_DIR: helm-charts/bestrong-app
   ROUTE_CHART_DIR: helm-charts/bestrong-routing
   HELM_REPO: helm
+  TAG: ${{ github.run_number }}
 
   # ===== DEPLOY =====
   APP_ID: bestrong-api
