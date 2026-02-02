@@ -1,5 +1,5 @@
 apiVersion: v2
-name: bestrong-route
+name: bestrong-routing
 description: Stable routing (service + ingress) for BeStrong API
 type: application
 

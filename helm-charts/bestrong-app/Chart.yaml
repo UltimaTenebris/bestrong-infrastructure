@@ -1,5 +1,5 @@
 apiVersion: v2
-name: bestrong-api
+name: bestrong-app
 description: BeStrong API (.NET 8) Helm chart, supports blue/green via 2 releases + stable routing
 type: application
 version: 0.1.0
