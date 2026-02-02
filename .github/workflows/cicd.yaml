@@ -72,10 +72,12 @@ jobs:
         run: |
           az acr login --name "$ACR_NAME"
 
-          docker build \
-          --platform linux/amd64 \
+          docker buildx build \
+          --platform linux/arm64 \
           -t $ACR_LOGIN/$IMAGE_NAME:$TAG \
-          -f app/Dockerfile .
+          -f app/Dockerfile \
+          --push .
+
 
 
           docker push $ACR_LOGIN/$IMAGE_NAME:$TAG
