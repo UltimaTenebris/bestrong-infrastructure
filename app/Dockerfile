@@ -1,9 +1,12 @@
-# -------- BUILD --------
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY . .
+# копіюємо тільки csproj
+COPY app/*.csproj ./
 RUN dotnet restore
+
+# копіюємо решту
+COPY app/. ./
 
 # EF тільки для збірки
 RUN dotnet tool install --global dotnet-ef --version 8.0.2
