@@ -1,0 +1,111 @@
+name: CI Build (Terraform + Docker + Helm)
+
+on:
+  push:
+    branches: [ "main" ]
+
+
+env:
+  # ===== HARD-CODED INFRA =====
+  ACR_NAME: testdrivemegacr
+  ACR_LOGIN: testdrivemegacr.azurecr.io
+  AKS_NAME: testdrive-aks
+  AKS_RG: test-rg-bg
+
+  # ===== PROJECT =====
+  TF_DIR: infra
+  IMAGE_NAME: dotnet-crud-api
+  APP_CHART_DIR: helm-charts/bestrong-app
+  ROUTE_CHART_DIR: helm-charts/bestrong-routing
+  HELM_REPO: helm
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+
+
+      - uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform apply
+        working-directory: ${{ env.TF_DIR }}
+        run: |
+          terraform init -input=false
+          terraform apply -auto-approve -input=false
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: terraform
+    env:
+      TAG: ${{ github.run_number }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+
+      - name: Docker build & push
+        run: |
+          az acr login --name "$ACR_NAME"
+
+          docker build \
+            -t $ACR_LOGIN/$IMAGE_NAME:$TAG \
+            -f src/Dockerfile .
+
+          docker push $ACR_LOGIN/$IMAGE_NAME:$TAG
+
+  helm:
+    runs-on: ubuntu-latest
+    needs: terraform
+    env:
+      TAG: ${{ github.run_number }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+
+      - name: Install Helm
+        run: |
+          curl -sSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+      - name: Helm package & push (OCI → ACR)
+        run: |
+          CHART_VERSION="0.1.${TAG}"
+
+          TOKEN=$(az acr login --name "$ACR_NAME" \
+            --expose-token --query accessToken -o tsv)
+
+          helm registry login "$ACR_LOGIN" \
+            -u 00000000-0000-0000-0000-000000000000 \
+            -p "$TOKEN"
+
+          helm package "$APP_CHART_DIR" \
+            --version "$CHART_VERSION" \
+            --app-version "$TAG"
+
+          helm package "$ROUTE_CHART_DIR" \
+            --version "$CHART_VERSION" \
+            --app-version "$TAG"
+
+          helm push bestrong-app-*.tgz \
+            oci://$ACR_LOGIN/$HELM_REPO
+
+          helm push bestrong-routing-*.tgz \
+            oci://$ACR_LOGIN/$HELM_REPO

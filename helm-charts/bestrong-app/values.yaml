@@ -1,0 +1,26 @@
+appId: "bestrong-api"
+
+color: blue            
+replicaCount: 1
+
+image:
+  repository: acrdotnetcrudbestrong.azurecr.io/dotnet-crud-api
+  tag: "1.0.0"        
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: acr-secret
+
+env:
+  ASPNETCORE_ENVIRONMENT: "Development"
+
+service:
+  type: ClusterIP
+  port: 8080
+
+persistence:
+  enabled: true
+  mountPath: /app/data
+  size: 1Gi
+  accessModes: ["ReadWriteOnce"]
+  storageClassName: ""

@@ -1,0 +1,22 @@
+appId: "bestrong-api"
+
+activeColor: blue   # ← ЄДИНА РУЧКА ПЕРЕМИКАННЯ ПРОДУ
+
+service:
+  port: 8080
+  nodePort: 30080
+
+
+ingress:
+  enabled: true
+  className: nginx
+  host: api.example.com
+  path: /
+  tls:
+    enabled: true
+    secretName: bestrong-api-tls
+  certManager:
+    enabled: true
+    issuerRef:
+      kind: ClusterIssuer
+      name: letsencrypt-prod
