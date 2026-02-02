@@ -4,7 +4,6 @@ activeColor: blue   # ← ЄДИНА РУЧКА ПЕРЕМИКАННЯ ПРОД�
 
 service:
   port: 8080
-  nodePort: 30080
 
 
 ingress:
