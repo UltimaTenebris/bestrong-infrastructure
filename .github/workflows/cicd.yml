@@ -46,7 +46,7 @@ jobs:
       - name: Set TAG
         id: vars
         run: |
-          TAG=${GITHUB_SHA::7}
+          TAG=${GITHUB_RUN_NUMBER}
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "chart_version=0.1.$TAG" >> "$GITHUB_OUTPUT"
 
