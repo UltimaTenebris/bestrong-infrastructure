@@ -10,12 +10,12 @@ provider "azurerm" {
 # }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "test-rg-bg"
+  name     = "BeStrongTeam01"
   location = var.location
 }
 
 resource "azurerm_container_registry" "acr" {
-  name                = "${var.prefix}megacr"
+  name                = "${var.prefix}acr123"
   resource_group_name = azurerm_resource_group.rg.name
   location            = var.location
   sku                 = "Basic"
