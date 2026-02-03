@@ -231,7 +231,7 @@ jobs:
               --set appId=$APP_ID \
               --set color=blue \
               --set image.repository=$ACR_LOGIN/$IMAGE_NAME \
-              --set image.tag=$TAG
+              --set image.tag=10
 
             helm upgrade --install "$ROUTE_RELEASE" \
               oci://$ACR_LOGIN/$HELM_REPO/$ROUTE_CHART \
@@ -257,7 +257,7 @@ jobs:
             --set appId=$APP_ID \
             --set color=$NEXT \
             --set image.repository=$ACR_LOGIN/$IMAGE_NAME \
-            --set image.tag=$TAG
+            --set image.tag=10
 
       - name: Switch traffic
         run: |
