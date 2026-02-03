@@ -46,14 +46,10 @@ jobs:
       - name: Set TAG
         id: vars
         run: |
-          if [ -n "${{ inputs.tag }}" ]; then
-            TAG="${{ inputs.tag }}"
-          else
-            TAG="${{ github.run_number }}"
-          fi
-
+          TAG=${GITHUB_SHA::7}
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "chart_version=0.1.$TAG" >> "$GITHUB_OUTPUT"
+
 
   # ===== OPTIONAL: Terraform =====
   # terraform:

@@ -5,6 +5,11 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: azure/application-gateway
     appgw.ingress.kubernetes.io/backend-protocol: "http"
+
+
+    appgw.ingress.kubernetes.io/health-probe-path: "/swagger/index.html"
+    appgw.ingress.kubernetes.io/health-probe-status-codes: "200-399"
+
 spec:
   rules:
     - http:
