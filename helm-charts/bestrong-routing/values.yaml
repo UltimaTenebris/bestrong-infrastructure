@@ -19,3 +19,6 @@ ingress:
     issuerRef:
       kind: ClusterIssuer
       name: letsencrypt-prod
+
+size: 5Gi
+hostPath: /mnt/bestrong-sqlite

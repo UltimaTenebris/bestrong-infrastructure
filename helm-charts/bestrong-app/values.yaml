@@ -14,10 +14,3 @@ env:
 service:
   type: ClusterIP
   port: 8080
-
-persistence:
-  enabled: true
-  mountPath: /app/data
-  size: 1Gi
-  accessModes: ["ReadWriteOnce"]
-  storageClassName: ""
