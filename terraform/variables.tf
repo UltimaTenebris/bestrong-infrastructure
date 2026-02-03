@@ -3,7 +3,7 @@ variable "location" {
 }
 
 variable "prefix" {
-  default = "testdrive"
+  default = "bestrong"
 }
 
 variable "node_count" {
