@@ -5,7 +5,8 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
+  storageClassName: manual
+  volumeName: bestrong-shared-pv
   resources:
     requests:
       storage: {{ .Values.persistence.size }}
-  volumeName: bestrong-shared-pv

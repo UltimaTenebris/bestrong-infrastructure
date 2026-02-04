@@ -8,5 +8,7 @@ spec:
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual
   hostPath:
     path: {{ .Values.persistence.hostPath.path }}
+    type: DirectoryOrCreate
