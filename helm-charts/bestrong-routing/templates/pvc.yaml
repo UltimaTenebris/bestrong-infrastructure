@@ -4,8 +4,8 @@ metadata:
   name: bestrong-shared-pvc
 spec:
   accessModes:
-    - ReadWriteOnce
-  storageClassName: manual
-  resources: 
+    - ReadWriteMany
+  storageClassName: azurefile-csi
+  resources:
     requests:
       storage: {{ .Values.size }}
