@@ -8,4 +8,4 @@ spec:
   storageClassName: azurefile-csi
   resources:
     requests:
-      storage: {{ .Values.size }}
+      storage: {{ .Values.size }} 
