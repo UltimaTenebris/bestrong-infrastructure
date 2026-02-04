@@ -28,14 +28,14 @@ RUN dotnet publish -c Release -o /out/publish
 
 # ---------- RUNTIME ----------
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
-WORKDIR /app
+WORKDIR /app 
 
 ENV ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080
 
 # sqlite folder
 RUN mkdir -p /app/data && chmod -R 777 /app/data
-
+RUN mkdir -p /app/Data
 # app binaries
 COPY --from=build /out/publish/ ./
 
