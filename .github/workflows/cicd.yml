@@ -67,7 +67,7 @@ jobs:
   #         terraform apply -auto-approve -input=false
 
   docker:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     # needs: terraform
     outputs:
       tag: ${{ steps.vars.outputs.tag }}
