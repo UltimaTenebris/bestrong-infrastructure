@@ -5,7 +5,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: azurefile-csi
   resources:
     requests:
-      storage: {{ .Values.size }} 
+      storage: {{ .Values.persistence.size }}
+  volumeName: bestrong-shared-pv

@@ -1,4 +1,4 @@
-appId: "bestrong-api" 
+appId: "bestrong-api"
 
 activeColor: blue
 
@@ -8,5 +8,7 @@ service:
 ingress:
   enabled: true
 
-size: 5Gi
-hostPath: /mnt/bestrong-sqlite
+persistence:
+  size: 5Gi
+  hostPath:
+    path: /mnt/bestrong-sqlite
