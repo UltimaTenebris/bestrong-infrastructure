@@ -6,7 +6,9 @@ service:
   port: 80
 
 ingress:
-  enabled: true
+  host: bestrong.pp.ua
+  tls:
+    secretName: bestrong-tls
 
 persistence:
   size: 5Gi
