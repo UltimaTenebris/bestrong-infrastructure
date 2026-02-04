@@ -13,5 +13,12 @@ terraform {
       source = "hashicorp/helm"
     }
   }
+
+  backend "azurerm" {
+    resource_group_name  = "BeStrongTeam01"
+    storage_account_name = "bestrongtfstate123"
+    container_name       = "tfstate"
+    key                  = "prod.terraform.tfstate"
+  }
 }
 
