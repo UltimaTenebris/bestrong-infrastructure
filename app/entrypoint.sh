@@ -8,6 +8,9 @@ echo "=============================="
 mkdir -p /app/data
 chmod 777 /app/data || true
 
+mkdir -p /app/Data
+chmod 777 /app/Data || true
+
 DB_PATH="/app/data/App.db"
 
 if [ ! -f "$DB_PATH" ]; then
@@ -16,7 +19,7 @@ if [ ! -f "$DB_PATH" ]; then
   chmod 666 "$DB_PATH"
 fi
 
-./efbundle --connection "Data Source=$DB_PATH"
+./efbundle #--connection "Data Source=$DB_PATH"
 
 echo "=============================="
 echo "Starting ASP.NET Core API"
