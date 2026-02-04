@@ -5,7 +5,7 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // ===== BLUE / GREEN MARKER =====
-const string APP_VERSION = "1.0.2";
+const string APP_VERSION = "1.0.3";
 // ===============================
 
 // Add services to the container.
@@ -29,7 +29,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
