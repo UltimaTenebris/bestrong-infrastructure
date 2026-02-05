@@ -1,15 +1,32 @@
 appId: "bestrong-api"
 
-color: blue            
+owner:
+  enabled: true   # true => Rollout + stable/preview services + ingress
+                  # false => simple Deployment (+ service fullname) WITHOUT ingress
+
 replicaCount: 1
 
 image:
   repository: acrdotnetcrudbestrong.azurecr.io/dotnet-crud-api
-  tag: "1.0.0"        
+  tag: "1.0.0"
+  pullPolicy: IfNotPresent
 
 env:
   ASPNETCORE_ENVIRONMENT: "Development"
 
+# connectionStrings:
+#   default: "Host=postgres;Port=5432;Database=moviesdb;Username=movies_user;Password=movies_pass"
+
 service:
-  type: ClusterIP
-  port: 8080
+  port: 80
+  targetPort: 8080
+
+rollout:
+  autoPromotionEnabled: true
+  # scaleDownDelaySeconds: 30
+
+ingress:
+  enabled: true
+  host: bestrong.pp.ua
+  tls:
+    secretName: bestrong-tls

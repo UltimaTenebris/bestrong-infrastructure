@@ -1,0 +1,71 @@
+{{- if .Values.owner.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: {{ .Values.appId }}
+  labels:
+    {{- include "bestrong.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "bestrong.selectorLabels" . | nindent 6 }}
+  strategy:
+    blueGreen:
+      activeService: {{ .Values.appId }}-stable
+      previewService: {{ .Values.appId }}-preview
+      autoPromotionEnabled: {{ .Values.rollout.autoPromotionEnabled }}
+      {{- if .Values.rollout.scaleDownDelaySeconds }}
+      scaleDownDelaySeconds: {{ .Values.rollout.scaleDownDelaySeconds }}
+      {{- end }}
+  template:
+    metadata:
+      labels:
+        {{- include "bestrong.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: api
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.targetPort }}
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: {{ .Values.env.ASPNETCORE_ENVIRONMENT | quote }}
+            {{- if .Values.connectionStrings.default }}
+            - name: ConnectionStrings__DefaultConnection
+              value: {{ .Values.connectionStrings.default | quote }}
+            {{- end }}
+{{- else }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "bestrong.fullname" . }}
+  labels:
+    {{- include "bestrong.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "bestrong.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "bestrong.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: api
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.targetPort }}
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: {{ .Values.env.ASPNETCORE_ENVIRONMENT | quote }}
+            {{- if .Values.connectionStrings.default }}
+            - name: ConnectionStrings__DefaultConnection
+              value: {{ .Values.connectionStrings.default | quote }}
+            {{- end }}
+{{- end }}

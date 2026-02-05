@@ -1,7 +1,0 @@
-apiVersion: v2
-name: bestrong-routing
-description: Stable routing (service + ingress) for BeStrong API
-type: application
-
-version: 0.1.0
-appVersion: "1.0.0"
