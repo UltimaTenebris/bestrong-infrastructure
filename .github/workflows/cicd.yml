@@ -254,6 +254,10 @@ jobs:
             --set color=$NEXT \
             --set image.repository=$ACR_LOGIN/$IMAGE_NAME \
             --set image.tag=$TAG
+            
+      - name: Cleanup old healthcheck pod
+        run: |
+          kubectl delete pod healthcheck --ignore-not-found
 
       - name: Health check NEXT color via service (retry)
         run: |
