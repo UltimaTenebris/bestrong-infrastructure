@@ -5,11 +5,11 @@ namespace DotNetCrudWebApi.Data
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<MovieModel> Movies { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public AppDbContext(DbContextOptions<AppDbContext> options)
+            : base(options)
         {
-            optionsBuilder.UseSqlite("Data Source=./Data/App.db");
         }
+
+        public DbSet<MovieModel> Movies { get; set; } = null!;
     }
 }

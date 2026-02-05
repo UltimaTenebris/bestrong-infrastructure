@@ -9,12 +9,16 @@ const string APP_VERSION = "1.0.4";
 // ===============================
 
 // Add services to the container.
-builder.Services.AddDbContext<AppDbContext>();
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+if (string.IsNullOrWhiteSpace(connectionString))
+{
+    throw new InvalidOperationException("Connection string 'DefaultConnection' was not found.");
+}
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(connectionString));
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-
-builder.Services.AddHealthChecks();
-
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -26,6 +30,12 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext.Database.Migrate();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -34,7 +44,5 @@ if (app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 app.UseAuthorization();
-app.MapHealthChecks("/health");
-
 app.MapControllers();
 app.Run();
