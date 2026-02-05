@@ -1,3 +1,34 @@
+{{- if .Values.owner.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.appId }}-stable
+  labels:
+    {{- include "bestrong.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  selector:
+    {{- include "bestrong.selectorLabels" . | nindent 4 }}
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.appId }}-preview
+  labels:
+    {{- include "bestrong.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  selector:
+    {{- include "bestrong.selectorLabels" . | nindent 4 }}
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+{{- else }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -11,4 +42,5 @@ spec:
   ports:
     - name: http
       port: {{ .Values.service.port }}
-      targetPort: 8080
+      targetPort: {{ .Values.service.targetPort }}
+{{- end }}

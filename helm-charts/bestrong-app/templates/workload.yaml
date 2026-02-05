@@ -33,10 +33,11 @@ spec:
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: {{ .Values.env.ASPNETCORE_ENVIRONMENT | quote }}
-            {{- if .Values.connectionStrings.default }}
+            {{- with .Values.connectionStrings }}
             - name: ConnectionStrings__DefaultConnection
-              value: {{ .Values.connectionStrings.default | quote }}
+              value: {{ .default | quote }}
             {{- end }}
+
 {{- else }}
 apiVersion: apps/v1
 kind: Deployment
@@ -64,8 +65,9 @@ spec:
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: {{ .Values.env.ASPNETCORE_ENVIRONMENT | quote }}
-            {{- if .Values.connectionStrings.default }}
+            {{- with .Values.connectionStrings }}
             - name: ConnectionStrings__DefaultConnection
-              value: {{ .Values.connectionStrings.default | quote }}
+              value: {{ .default | quote }}
             {{- end }}
+
 {{- end }}
