@@ -27,18 +27,3 @@ spec:
     - name: http
       port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.targetPort }}
-{{- else }}
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "bestrong.fullname" . }}
-  labels:
-    {{- include "bestrong.labels" . | nindent 4 }}
-spec:
-  type: ClusterIP
-  selector:
-    {{- include "bestrong.selectorLabels" . | nindent 4 }}
-  ports:
-    - name: http
-      port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.targetPort }}
