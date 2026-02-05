@@ -192,6 +192,5 @@ jobs:
           helm upgrade --install bestrong-api \
             oci://$ACR_LOGIN/$HELM_REPO/bestrong-app \
             --version "0.1.$TAG" \
-            --set owner.enabled=true \
             --set image.repository=$ACR_LOGIN/$IMAGE_NAME \
             --set image.tag=$TAG

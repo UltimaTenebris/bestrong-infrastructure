@@ -1,9 +1,5 @@
 appId: "bestrong-api"
 
-owner:
-  enabled: true   # true => Rollout + stable/preview services + ingress
-                  # false => simple Deployment (+ service fullname) WITHOUT ingress
-
 replicaCount: 1
 
 image:
@@ -26,7 +22,6 @@ rollout:
   # scaleDownDelaySeconds: 30
 
 ingress:
-  enabled: true
   host: bestrong.pp.ua
   tls:
     secretName: bestrong-tls
