@@ -5,7 +5,7 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // ===== BLUE / GREEN MARKER =====
-const string APP_VERSION = "1.0.4";
+const string APP_VERSION = "1.1.0";
 // ===============================
 
 // Add services to the container.
