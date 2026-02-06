@@ -10,8 +10,9 @@ image:
 env:
   ASPNETCORE_ENVIRONMENT: "Development"
 
-# connectionStrings:
-#   default: "Host=postgres;Port=5432;Database=moviesdb;Username=movies_user;Password=movies_pass"
+connectionStrings:
+  default: "Host=postgres;Port=5432;Database=moviesdb;Username=movies_user"
+
 
 service:
   port: 80
@@ -25,3 +26,24 @@ ingress:
   host: bestrong.pp.ua
   tls:
     secretName: bestrong-tls
+
+
+postgres:
+  replicas: 1
+
+  image:
+    repository: postgres
+    tag: "16"
+
+  service:
+    port: 5432
+
+  auth:
+    database: moviesdb
+    username: movies_user
+    secretName: postgres-secret
+
+  persistence:
+    size: 10Gi
+    storageClassName: manual
+    hostPath: /mnt/postgres-data
