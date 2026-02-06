@@ -34,7 +34,11 @@ spec:
               value: "1.1.{{ .Values.image.tag }}"
             - name: ASPNETCORE_ENVIRONMENT
               value: {{ .Values.env.ASPNETCORE_ENVIRONMENT | quote }}
-            {{- with .Values.connectionStrings }}
             - name: ConnectionStrings__DefaultConnection
-              value: {{ .default | quote }}
-            {{- end }}
+              value: {{ .Values.connectionStrings.default | quote }}
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.postgres.auth.secretName }}
+                  key: POSTGRES_PASSWORD
