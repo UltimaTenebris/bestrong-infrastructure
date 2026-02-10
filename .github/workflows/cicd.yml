@@ -194,3 +194,15 @@ jobs:
             --version "0.1.$TAG" \
             --set image.repository=$ACR_LOGIN/$IMAGE_NAME \
             --set image.tag=$TAG
+      
+      - name: Apply Grafana config (Helm values)
+        run: |
+          helm upgrade monitoring \
+            prometheus-community/kube-prometheus-stack \
+            -n monitoring \
+            -f helm-values/grafana.yaml
+
+
+      - name: Apply Prometheus rules
+        run: |
+          kubectl apply -f helm-charts/prometheus-rules/
