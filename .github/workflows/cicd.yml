@@ -203,7 +203,7 @@ jobs:
           helm upgrade monitoring \
             prometheus-community/kube-prometheus-stack \
             -n monitoring \
-            -f helm-values/grafana.yaml
+            -f helm-charts/helm-values/grafana.yaml
 
 
       - name: Apply Prometheus rules
