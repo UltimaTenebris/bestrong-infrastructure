@@ -11,3 +11,10 @@ resource "azurerm_dns_a_record" "root" {
   records             = ["20.79.73.215"]
 }
 
+resource "azurerm_dns_a_record" "wildcard" {
+  name                = "*"
+  zone_name           = azurerm_dns_zone.bestrong.name
+  resource_group_name = azurerm_resource_group.rg.name
+  ttl                 = 60
+  records             = ["20.79.73.215"]
+}
