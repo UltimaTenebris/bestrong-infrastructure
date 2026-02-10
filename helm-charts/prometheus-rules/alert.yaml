@@ -3,6 +3,8 @@ kind: PrometheusRule
 metadata:
   name: bestrong-alerts
   namespace: monitoring
+  labels:
+    prometheus: monitoring
 spec:
   groups:
     - name: bestrong
