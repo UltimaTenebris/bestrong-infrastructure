@@ -1,0 +1,37 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: bestrong-alerts
+  namespace: monitoring
+spec:
+  groups:
+    - name: bestrong
+      rules:
+        - alert: BeStrongHighCPU
+          expr: |
+            (
+              sum by (pod) (
+                rate(container_cpu_usage_seconds_total{
+                  namespace="default",
+                  pod=~"bestrong-.*",
+                  container!="",
+                  image!=""
+                }[5m])
+              )
+              /
+              sum by (pod) (
+                kube_pod_container_resource_limits{
+                  namespace="default",
+                  pod=~"bestrong-.*",
+                  resource="cpu",
+                  unit="core"
+                }
+              )
+            ) > 0.7
+          for: 5m
+          labels:
+            severity: warning
+            service: bestrong-api
+          annotations:
+            summary: "BeStrong CPU > 70%"
+            description: "CPU usage above 70% of limit for pod {{ $labels.pod }}"
