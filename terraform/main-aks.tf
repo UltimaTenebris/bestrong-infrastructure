@@ -21,9 +21,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
     type = "SystemAssigned"
   }
 
-  ingress_application_gateway {
-    gateway_id = azurerm_application_gateway.agw.id
-  }
+  # ingress_application_gateway {
+  #   gateway_id = azurerm_application_gateway.agw.id
+  # }
 
   tags = {
     environment = "test"
