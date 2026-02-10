@@ -197,10 +197,15 @@ jobs:
       
       - name: Apply Grafana config (Helm values)
         run: |
-          helm upgrade monitoring \
+          helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+          helm repo update
+
+          helm upgrade --install monitoring \
             prometheus-community/kube-prometheus-stack \
             -n monitoring \
-            -f helm-values/grafana.yaml
+            -f helm-values/grafana.yaml \
+            --reuse-values
+
 
 
       - name: Apply Prometheus rules
