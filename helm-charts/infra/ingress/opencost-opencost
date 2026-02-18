@@ -5,6 +5,8 @@ metadata:
   namespace: opencost
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.middlewares: opencost-opencost-auth@kubernetescrd
+
 spec:
   ingressClassName: traefik
   rules:

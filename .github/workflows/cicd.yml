@@ -208,3 +208,7 @@ jobs:
       - name: Apply Prometheus rules
         run: |
           kubectl apply -f helm-charts/prometheus-rules/
+
+      - name: Apply Certificates
+        run: |
+          kubectl apply -f helm-charts/infra/certificates/
