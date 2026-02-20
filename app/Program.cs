@@ -61,6 +61,9 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+app.UseSerilogRequestLogging();
+
+
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
