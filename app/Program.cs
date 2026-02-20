@@ -17,6 +17,9 @@ Log.Logger = new LoggerConfiguration()
     {
         options.Endpoint = $"{builder.Configuration["Otlp:Endpoint"]}";
         options.Protocol = OtlpProtocol.Grpc;
+            {
+                ["service.name"] = "bestrong-api"
+            };
     })
     .CreateLogger();
 
