@@ -15,13 +15,16 @@ Log.Logger = new LoggerConfiguration()
     .Enrich.WithProperty("service.name", builder.Configuration["Otlp:ServiceName"])
     .WriteTo.OpenTelemetry(options =>
     {
-        options.Endpoint = $"{builder.Configuration["Otlp:Endpoint"]}";
+        options.Endpoint = builder.Configuration["Otlp:Endpoint"];
         options.Protocol = OtlpProtocol.Grpc;
-            {
-                ["service.name"] = "bestrong-api"
-            };
+
+        options.ResourceAttributes = new Dictionary<string, object>
+        {
+            ["service.name"] = "bestrong-api"
+        };
     })
     .CreateLogger();
+
 
 builder.Host.UseSerilog();
 // ===========================
