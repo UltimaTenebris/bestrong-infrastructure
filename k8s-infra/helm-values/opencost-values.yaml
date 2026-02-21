@@ -1,0 +1,23 @@
+extraVolumes:
+- name: service-key-secret
+  secret:
+    secretName: azure-service-key
+- emptyDir: {}
+  name: opencost-config
+opencost:
+  cloudCost:
+    enabled: true
+    provider: azure
+  cloudIntegrationSecret: cloud-costs
+  exporter:
+    extraVolumeMounts:
+    - mountPath: /var/secrets
+      name: service-key-secret
+    - mountPath: /var/configs
+      name: opencost-config
+  prometheus:
+    external:
+      enabled: true
+      url: http://monitoring-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
+    internal:
+      enabled: false

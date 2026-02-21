@@ -1,0 +1,10 @@
+grafana:
+  ingress:
+    enabled: true
+    hosts:
+    - grafana.bestrong.pp.ua
+    ingressClassName: traefik
+    tls:
+    - hosts:
+      - grafana.bestrong.pp.ua
+      secretName: bestrong-wildcard-tls

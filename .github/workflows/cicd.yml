@@ -202,13 +202,42 @@ jobs:
           helm upgrade monitoring \
             prometheus-community/kube-prometheus-stack \
             -n monitoring \
-            -f helm-charts/helm-values/grafana.yaml
+            -f k8s-infra/helm-values/grafana-values.yaml
 
+      - name: Apply Loki config (Helm values)
+        run: |
+          helm repo add grafana https://grafana.github.io/helm-charts
+          helm repo update
+
+          helm upgrade loki \
+            grafana/loki \
+            -n monitoring \
+            -f k8s-infra/helm-values/loki-values.yaml
+
+      - name: Apply OTEL config (Helm values)
+        run: |
+          helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
+          helm repo update
+
+          helm upgrade otel-collector \
+            open-telemetry/opentelemetry-collector \
+            -n monitoring \
+            -f k8s-infra/helm-values/otel-values.yaml
+
+      - name: Apply OpenCost config (Helm values)
+        run: |
+          helm repo add opencost https://opencost.github.io/opencost-helm-chart
+          helm repo update
+
+          helm upgrade opencost \
+            opencost/opencost \
+            -n opencost \
+            -f k8s-infra/helm-values/opencost-values.yaml
 
       - name: Apply Prometheus rules
         run: |
-          kubectl apply -f helm-charts/prometheus-rules/
+          kubectl apply -f k8s-infra/prometheus-rules
 
       - name: Apply Certificates
         run: |
-          kubectl apply -f helm-charts/infra/certificates/
+          kubectl apply -f k8s-infra/certificates

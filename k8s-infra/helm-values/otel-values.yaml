@@ -1,0 +1,33 @@
+config:
+  exporters:
+    debug:
+      verbosity: detailed
+    otlphttp/logs:
+      endpoint: http://loki.monitoring.svc.cluster.local:3100/otlp
+      tls:
+        insecure: true
+  receivers:
+    otlp:
+      protocols:
+        grpc: {}
+        http: {}
+  service:
+    pipelines:
+      logs:
+        exporters:
+        - otlphttp/logs
+        receivers:
+        - otlp
+image:
+  repository: otel/opentelemetry-collector-contrib
+  tag: 0.146.0
+mode: deployment
+presets:
+  hostMetrics:
+    enabled: false
+  kubeletMetrics:
+    enabled: false
+  kubernetesAttributes:
+    enabled: false
+  logsCollection:
+    enabled: false
