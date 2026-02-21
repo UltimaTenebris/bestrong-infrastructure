@@ -8,3 +8,8 @@ grafana:
     - hosts:
       - grafana.bestrong.pp.ua
       secretName: bestrong-wildcard-tls
+      
+prometheus:
+  prometheusSpec:
+    externalLabels:
+      cluster: default-cluster

@@ -21,3 +21,4 @@ opencost:
       url: http://monitoring-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
     internal:
       enabled: false
+      
