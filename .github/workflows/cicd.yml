@@ -202,7 +202,8 @@ jobs:
           helm upgrade monitoring \
             prometheus-community/kube-prometheus-stack \
             -n monitoring \
-            -f k8s-infra/helm-values/grafana-values.yaml
+            -f k8s-infra/helm-values/grafana-values.yaml \
+            --wait=false
 
       - name: Apply Loki config (Helm values)
         run: |
@@ -212,7 +213,8 @@ jobs:
           helm upgrade loki \
             grafana/loki \
             -n monitoring \
-            -f k8s-infra/helm-values/loki-values.yaml
+            -f k8s-infra/helm-values/loki-values.yaml \
+            --wait=false
 
       - name: Apply OTEL config (Helm values)
         run: |
@@ -222,7 +224,8 @@ jobs:
           helm upgrade otel-collector \
             open-telemetry/opentelemetry-collector \
             -n monitoring \
-            -f k8s-infra/helm-values/otel-values.yaml
+            -f k8s-infra/helm-values/otel-values.yaml \
+            --wait=false
 
       - name: Apply OpenCost config (Helm values)
         run: |
@@ -232,12 +235,13 @@ jobs:
           helm upgrade opencost \
             opencost/opencost \
             -n opencost \
-            -f k8s-infra/helm-values/opencost-values.yaml
-
-      - name: Apply Prometheus rules
-        run: |
-          kubectl apply -f k8s-infra/prometheus-rules
+            -f k8s-infra/helm-values/opencost-values.yaml \
+            --wait=false
 
       - name: Apply Certificates
         run: |
           kubectl apply -f k8s-infra/certificates
+
+      - name: Apply Prometheus rules
+        run: |
+          kubectl apply -f k8s-infra/prometheus-rules
