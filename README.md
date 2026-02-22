@@ -99,7 +99,7 @@ Make changes in these files:
    ```bash
    kubectl get secret -n monitoring monitoring-grafana -o jsonpath="{.data.admin-password}" | base64 -d
    ```
-   2.1. Or set your own password with:
+   Or set your own password with:
    ```bash
    kubectl create secret generic grafana-admin \
      -n monitoring \
