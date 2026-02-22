@@ -245,3 +245,7 @@ jobs:
       - name: Apply Prometheus rules
         run: |
           kubectl apply -f k8s-infra/prometheus-rules
+      
+      - name: Apply middlewares
+        run: |
+          kubectl apply -f k8s-infra/middleware

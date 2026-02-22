@@ -1,0 +1,8 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: opencost-auth
+  namespace: opencost
+spec:
+  basicAuth:
+    secret: opencost-auth
