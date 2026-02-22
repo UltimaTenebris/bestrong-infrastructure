@@ -204,7 +204,9 @@ Make changes in these files:
    az role definition create --verbose --role-definition @myrole.json
    ```
    - Create an Azure Service Principal
-   ```az ad sp create-for-rbac --name "OpenCostAccess" --role "OpenCostRole" --scope "/subscriptions/YOUR_SUBSCRIPTION_ID" --output json```
+   ```bash
+   az ad sp create-for-rbac --name "OpenCostAccess" --role "OpenCostRole" --scope "/subscriptions/YOUR_SUBSCRIPTION_ID" --output json
+   ```
 
    - Supply Azure Service Principal details to OpenCost
    service-key.json
@@ -258,7 +260,7 @@ Make changes in these files:
    }
    ```
 
-   ```
+   ```bash
    kubectl create secret generic cloud-costs --from-file=./cloud-integration.json --namespace opencost
    ```
 3.  Authorization via Traefik Middleware
