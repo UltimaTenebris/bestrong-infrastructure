@@ -54,7 +54,7 @@ terraform init
 # Apply Configuration
 terraform apply -var="resource_group_name=bestrong-rg" -var="location=germanywestcentral"
 ```
- P.S. Please notice that when you create a cluster with your Terraform you have an option to define how many pods there can be on your node, if you dont specify it, Terraform will set it for you (max_pods = 30), so if you need more pods, please make sure you write the amount of pods you need in a "default_node_pool" field:
+ P.S. Please note that when you create a cluster with your Terraform you have an option to define how many pods there can be on your node, if you dont specify it, Terraform will set it for you (max_pods = 30), so if you need more pods, please make sure you write the amount of pods you need in a "default_node_pool" field:
 
 ```
   default_node_pool {
