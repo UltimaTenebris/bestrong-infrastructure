@@ -259,14 +259,14 @@ Make changes in these files:
    kubectl create secret generic cloud-costs --from-file=./cloud-integration.json --namespace opencost
    ```
 3.  Authorization via Traefik Middleware
-- Create a password:
-  `htpasswd -nb admin <YourPassword>`
-   Example output:
-     `admin:$apr1$kjsdhf$kjsdhfksjdhfksjdhf`
-
-- Create secret
-```
-kubectl create secret generic opencost-auth \
-  -n opencost \
-  --from-literal=users='YOUR_OUTPUT_HERE'
-```
+  - Create a password:
+    `htpasswd -nb admin <YourPassword>`
+     Example output:
+       `admin:$apr1$kjsdhf$kjsdhfksjdhfksjdhf`
+  
+  - Create secret
+  ```
+  kubectl create secret generic opencost-auth \
+    -n opencost \
+    --from-literal=users='YOUR_OUTPUT_HERE'
+  ```
