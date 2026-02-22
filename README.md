@@ -19,6 +19,8 @@ It is designed to provision a production-ready Azure Kubernetes Service (AKS) cl
 * **Package Manager:** Helm
 * **CI/CD:** GitHub Actions
 * **Deployment Strategy:** Blue-Green (Team 1)
+* **Monitoring** Prometheus and Grafana
+* **Logs** Open Telemetry and Loki/Grafana
 
 ### Blue-Green Strategy
 We utilize a traffic-switching approach:
