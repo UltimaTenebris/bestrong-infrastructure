@@ -53,3 +53,25 @@ terraform init
 
 # Apply Configuration
 terraform apply -var="resource_group_name=bestrong-rg" -var="location=East US"
+
+### 1. Setup cicd with your ACR 
+    1. Make changes in your workflow file .github/workflows/<your_pipeline>.yml:
+    - Update ACR/AKS envs:
+        - ACR_NAME → your ACR name (without .azurecr.io)
+        - ACR_LOGIN → your login server (<acr>.azurecr.io)
+        - AKS_NAME → your AKS cluster name
+        - AKS_RG → your AKS resource group
+
+    2. GitHub Secrets (Settings → Secrets and variables → Actions)
+    - Create secrets: AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, AZURE_TENANT_ID
+
+### 2. Setup https
+Make changes in these files:
+    1. k8s-infra\cluster-wide\clusterissuer-letsencrypt.yaml
+    - Put your email and AzureDNS information in coresponding fields
+
+    2. k8s-infra\certificates\bestrong-tls.yaml 
+    - Change dnsNames to your domain (also in other certificates in that folder, if you want to use grafana and opencost)
+
+    3. helm-charts\bestrong-app\values.yaml
+    - Change host in ingress to your domain
