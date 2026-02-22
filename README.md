@@ -98,7 +98,6 @@ View application logs:
 kubectl logs -f deployment/bestrong-api -n production
 ```
 
-```
 ---
 
 ### 1. Setup CI/CD with your ACR
