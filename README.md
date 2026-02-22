@@ -121,6 +121,15 @@ kubectl logs -f deployment/bestrong-api -n production
      - **AKS_NAME** → your AKS cluster name
      - **AKS_RG** → your AKS resource group
 
+You need to create RBAC for GitHub to have access to your resources and ability to change them:
+```bash
+az ad sp create-for-rbac \
+  --name github-bestrong-sp \
+  --role Contributor \
+  --scopes /subscriptions/a6b2151c-9160-41a8-9ad8-fc40b6e92fd4 \
+  --sdk-auth
+```
+
 2. GitHub Secrets (Settings → Secrets and variables → Actions)
    - Create secrets:
      - `AZURE_CLIENT_ID`
