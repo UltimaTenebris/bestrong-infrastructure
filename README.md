@@ -53,6 +53,7 @@ terraform init
 
 # Apply Configuration
 terraform apply -var="resource_group_name=bestrong-rg" -var="location=East US"
+```
 
 ### 1. Setup cicd with your ACR 
     1. Make changes in your workflow file .github/workflows/<your_pipeline>.yml:
