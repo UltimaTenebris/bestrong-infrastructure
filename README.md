@@ -258,9 +258,3 @@ Make changes in these files:
    ```
    kubectl create secret generic cloud-costs --from-file=./cloud-integration.json --namespace opencost
    ```
-   and add to grafana-values.yaml:
-   ```
-    grafana.admin.existingSecret: grafana-admin
-    grafana.admin.userKey: admin-user
-    grafana.admin.passwordKey: admin-password
-   ```
