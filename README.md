@@ -107,6 +107,6 @@ Make changes in these files:
      --from-literal=admin-password=YourStrongPassword
    ```
    and add to grafana-values.yaml:
-   grafana.admin.existingSecret: grafana-admin
-   grafana.admin.userKey: admin-user
-   grafana.admin.passwordKey: admin-password
+    grafana.admin.existingSecret: grafana-admin
+    grafana.admin.userKey: admin-user
+    grafana.admin.passwordKey: admin-password
