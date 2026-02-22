@@ -52,7 +52,52 @@ cd terraform
 terraform init
 
 # Apply Configuration
-terraform apply -var="resource_group_name=bestrong-rg" -var="location=East US"
+terraform apply -var="resource_group_name=bestrong-rg" -var="location=germanywestcentral"
+
+```
+
+### 2. Working with Kubernetes and Helm
+Here's some essential commands, that you would need to get to work with your AKS cluster and Helm 
+
+Connect to the AKS cluster:
+```
+az aks get-credentials --resource-group bestrong-rg --name bestrong-aks
+```
+
+Verify cluster access:
+```
+kubectl cluster-info
+kubectl get nodes
+```
+
+Create a dedicated production namespace:
+```
+kubectl create namespace production
+```
+
+Deploy or upgrade the application via Helm:
+```
+helm upgrade --install bestrong-api ./helm/bestrong-api \
+  -n production \
+  --create-namespace
+```
+
+Check pod status:
+```
+kubectl get pods -n production
+kubectl describe pod <pod-name> -n production
+```
+
+View application logs:
+```
+kubectl logs -f deployment/bestrong-api -n production
+```
+
+View application logs:
+```
+kubectl logs -f deployment/bestrong-api -n production
+```
+
 ```
 ---
 
