@@ -53,54 +53,66 @@ terraform init
 
 # Apply Configuration
 terraform apply -var="resource_group_name=bestrong-rg" -var="location=germanywestcentral"
+```
+ P.S. Please notice that when you create a cluster with your Terraform you have an option to define how many pods there can be on your node, if you dont specify it, Terraform will set it for you (max_pods = 30), so if you need more pods, please make sure you write the amount of pods you need in a "default_node_pool" field:
 
 ```
+  default_node_pool {
+    name           = "default"
+    node_count     = var.node_count
+    vm_size        = "Standard_B2ps_v2"
+    vnet_subnet_id = azurerm_subnet.aks_subnet.id
+    max_pods = 45
+    temporary_name_for_rotation = "tempdefault"
+  }
+```
+Otherwise, you have to migrate your cluster to the temporary one, while Azure create a cluster for you with your specified resources (for this you just have to specify "temporary_name_for_rotation" like it's written in a code above). Don't worry, this won't destroy your deployment.
 
 ### 2. Working with Kubernetes and Helm
 Here's some essential commands, that you would need to get to work with your AKS cluster and Helm 
 
 Connect to the AKS cluster:
-```
+```bash
 az aks get-credentials --resource-group bestrong-rg --name bestrong-aks
 ```
 
 Verify cluster access:
-```
+```bash
 kubectl cluster-info
 kubectl get nodes
 ```
 
 Create a dedicated production namespace:
-```
+```bash
 kubectl create namespace production
 ```
 
 Deploy or upgrade the application via Helm:
-```
+```bash
 helm upgrade --install bestrong-api ./helm/bestrong-api \
   -n production \
   --create-namespace
 ```
 
 Check pod status:
-```
+```bash
 kubectl get pods -n production
 kubectl describe pod <pod-name> -n production
 ```
 
 View application logs:
-```
+```bash
 kubectl logs -f deployment/bestrong-api -n production
 ```
 
 View application logs:
-```
+```bash
 kubectl logs -f deployment/bestrong-api -n production
 ```
 
 ---
 
-### 1. Setup CI/CD with your ACR
+### 3.  Setup CI/CD with your ACR
 
 1. Make changes in your workflow file `.github/workflows/<your_pipeline>.yml`:
    - Update ACR/AKS envs:
